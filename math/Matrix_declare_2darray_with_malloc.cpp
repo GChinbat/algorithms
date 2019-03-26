@@ -31,8 +31,8 @@ signed main() {
     
     Mat * mat = new Mat(10, 4);
     
-    cout << *(mat -> n) << endl;
-    cout << *(mat -> m) << endl;
+    cout << *mat -> n << endl;
+    cout << *mat -> m << endl;
     int cnt = 0;
     for (int i = 0; i < 10; i ++) {
         for (int j = 0; j < 4; j++) {
@@ -44,8 +44,8 @@ signed main() {
     delete mat;
     
     cout << "after delete :: " << endl;
-    cout << *(mat -> n) << endl;
-    cout << *(mat -> m) << endl;
+    cout << mat -> n << endl;
+    cout << mat -> m << endl;
     for (int i = 0; i < 10; i ++) {
         for (int j = 0; j < 4; j ++) {
             cout << mat -> a[i][j] << " ";
