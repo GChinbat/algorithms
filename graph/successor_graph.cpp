@@ -6,6 +6,9 @@ using namespace std;
 #define inf (int)1e18+10
 //########################//
 
+// find root to the kth element 
+// find cycle's length and starting position of the cycle
+
 const int nmax = (int) 1e6 + 10;
 
 
@@ -45,19 +48,64 @@ int get_kth_successor(int beg, int kth) {
 }
 
 
-signed main() {
+//################################################################//
+
+
+// 1 -> 2-> 3 -> 4 -> 5 -> 6 -> 4
+
+void cycle() {
+
+    int root = 1;
+    int turtoise = succ[root];
+    int rabbit = succ[succ[root]];
+    while(turtoise != rabbit) {
+        turtoise = succ[turtoise];
+        rabbit = succ[succ[rabbit]];
+    }
+
+    turtoise = root;
+    while(turtoise != rabbit) {
+        turtoise = succ[turtoise];
+        rabbit = succ[rabbit];
+    }
+
+    int cycle_starting_node = turtoise; // or rabbit
+
+    rabbit = succ[rabbit];
+    int len = 1;
+    while(turtoise != rabbit) {
+        rabbit = succ[rabbit];
+        len ++;
+    }
+
+
+    int cycle_length = len;
+
+    cout << "cycle starting node is :: ";
+    cout << cycle_starting_node << endl;
+    cout << "cycle length is :: ";
+    cout << cycle_length << endl;
     
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
+}
 
-
-    freopen("in", "r", stdin);
-    freopen("out", "w", stdout);
-
+void cycle_init() {
 
     cin >> n >> m;
+    memset(succ, -1, sizeof succ);
+    while (m -- ) {
+        int from, to;
+        cin >> from >> to;
+        succ[from] = to;   
+    }                               
 
+    cycle();
 
+}
+
+void kth_successor_init() {
+    
+    cin >> n >> m;
+    
     memset(succ, -1, sizeof succ);
     
     while( m -- ) {
@@ -88,7 +136,20 @@ signed main() {
         cout << get_kth_successor(beg, kth) << endl;
     }
 
+}
 
+
+signed main() {
+    
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+
+
+    freopen("in", "r", stdin);
+    freopen("out", "w", stdout);
+
+    //kth_successor_init();
+    cycle_init();
                              
 
     return 0;
