@@ -1,27 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define mod 1000000007
+
 int n, c[110];
 int dp[101][1000001];
-
-int solve(int id, int rem) {
-    
-    if (rem < 0) return 0;
-
-    if (id == n) {
-        return rem == 0;   
-    }
-
-
-    int &ans = dp[id][rem];
-    if (ans != -1) return ans;
-    ans = 0;
-    ans += solve(id, rem - c[id]);
-    ans += solve(id + 1, rem);
-
-
-    return ans;
-}
 
 
 signed main() {
@@ -30,18 +13,30 @@ signed main() {
 
     int x;
     cin >> n >> x;
-    for (int i = 0; i < n; i ++) {
+    for (int i = 1; i <= n; i ++) {
         cin >> c[i];
     }
 
-    sort(c, c + n);
+    sort(c + 1, c + n + 1);
 
-    memset(dp, -1, sizeof dp);
+    memset(dp, 0, sizeof dp);
 
-    int res = solve(0, x);
+    
+    dp[0][0] = 1;
+    
+    for (int i = 1; i <= n; i ++) {
+        for (int j = 0; j <= x; j ++) {
+            if (j - c[i] >= 0) {
+                dp[i][j] += dp[i][j - c[i]];
+                dp[i][j] %= mod;
+            }
+            dp[i][j] += dp[i - 1][j];
+            dp[i][j] %= mod;
+            
+        }
+    }
 
-    cout << res << endl;
-
-
+    cout << dp[n][x] << endl;
+    
     return 0;
 }
